@@ -5,33 +5,68 @@
 // 1. Calculate the factorial of a number. The factorial of a non-negative integer n,
 // denoted by n!, is the product of all positive integers less than or equal to n.
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
-// factorial(5); // 120
+// factorial(5); // 120 
 var factorial = function(n) {
+    if(n < 0){
+      return null;
+    }else if (n === 1 || n === 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array){
-    if (array.length > 1){
-      return array[0] + sum(array.slice(1));
-    } else {
-      return array[0] || 0;
-    }
+  if (array.length > 1){
+    return array[0] + sum(array.slice(1));
+  } else {
+    return array[0] || 0;
+  }
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
-var arraySum = function(array) {
+var arraySum = function(array) { 
+  if(array[0] === undefined){
+    return 0;
+  } else {
+    if (Array.isArray(array[0])){
+      return arraySum(array[0]) + arraySum(array.slice(1));
+    } else {
+      return array[0] + arraySum(array.slice(1));
+    }
+  }
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  if(n === 1 || n === 0){
+    return !n; 
+  } else {
+    if (Math.sign(n) === 1) {
+      return isEven(n-2);
+    } else if(Math.sign(n) === -1) {
+      return isEven(n+2);
+    }
+  }
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+  if(n === 0){
+    return n;
+  }else{
+    if (Math.sign(n) === 1) {
+      n= n-1;
+    } else if(Math.sign(n) === -1) {
+      n= n+1;
+    }
+    return n + sumBelow(n);
+  }
 };
 
 // 6. Get the integers within a range (x, y).
@@ -56,6 +91,11 @@ var powerOfTwo = function(n) {
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+  if(string.length <= 1){
+      return string;
+  } else {
+      return reverse(string.slice(1))+ string[0];
+  }
 };
 
 // 10. Write a function that determines if a string is a palindrome.
@@ -73,11 +113,27 @@ var modulo = function(x, y) {
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+  if (x === 0 || y === 0 ) {
+    return 0;
+  } else {
+     if (y > 0) {
+       return x + multiply(x, y-1);
+     } else {
+       return x + multiply(x, y+1);
+     }
+  }
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {
+  
+
+  if (x > 0 && y > 0) {
+    return 1 + divide(x - y, y);
+  } else {
+    return -1 + divide(x + y, y);
+  }
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
@@ -127,6 +183,11 @@ var countOccurrence = function(array, value) {
 // 21. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback) {
+  if (array.length === 0) {
+    return [];
+  } else { 
+    return [callback(array[0])].concat(rMap(array.slice(1),callback));
+  }
 };
 
 // 22. Write a function that counts the number of times a key occurs in an object.
